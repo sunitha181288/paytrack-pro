@@ -1,30 +1,12 @@
--- Simple seed data for testing
-DELETE FROM transactions;
-
--- PENDING transactions (2)
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at)
-VALUES ('tran_001', 5.50, 'HKD', 'DEBIT', 'PENDING', 'merch_01', 'acc_001', 'ref_001', 'Coffee', NOW());
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at)
-VALUES ('tran_002', 129.99, 'HKD', 'DEBIT', 'PENDING', 'merch_02', 'acc_001', 'ref_002', 'Amazon', NOW());
-
--- PROCESSING transactions (2)
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at)
-VALUES ('tran_003', 3500.00, 'HKD', 'CREDIT', 'PROCESSING', 'merch_03', 'acc_001', 'ref_003', 'Salary', NOW());
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at)
-VALUES ('tran_010', 750.00, 'USD', 'DEBIT', 'PROCESSING', 'merch_04', 'acc_001', 'ref_010', 'Airbnb', NOW());
-
--- SETTLED transactions (5)
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, settled_at, settlement_batch_id)
-VALUES ('tran_004', 85.40, 'HKD', 'DEBIT', 'SETTLED', 'merch_05', 'acc_001', 'ref_004', 'Dinner', DATEADD('DAY', -1, NOW()), DATEADD('DAY', -1, NOW()), 'batch_001');
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, settled_at, settlement_batch_id)
-VALUES ('tran_005', 156.30, 'HKD', 'DEBIT', 'SETTLED', 'merch_06', 'acc_001', 'ref_005', 'Groceries', DATEADD('DAY', -1, NOW()), DATEADD('DAY', -1, NOW()), 'batch_001');
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, settled_at, settlement_batch_id)
-VALUES ('tran_006', 245.80, 'HKD', 'DEBIT', 'SETTLED', 'merch_07', 'acc_001', 'ref_006', 'Electricity', DATEADD('DAY', -2, NOW()), DATEADD('DAY', -2, NOW()), 'batch_002');
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, settled_at, settlement_batch_id)
-VALUES ('tran_008', 25.99, 'HKD', 'REFUND', 'SETTLED', 'merch_08', 'acc_001', 'ref_008', 'Refund', DATEADD('DAY', -3, NOW()), DATEADD('DAY', -3, NOW()), 'batch_003');
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, settled_at, settlement_batch_id)
-VALUES ('tran_009', 500.00, 'HKD', 'TRANSFER', 'SETTLED', 'merch_09', 'acc_001', 'ref_009', 'Savings Transfer', DATEADD('DAY', -4, NOW()), DATEADD('DAY', -4, NOW()), 'batch_004');
-
--- FAILED transaction (1)
-INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at)
-VALUES ('tran_007', 999.99, 'USD', 'DEBIT', 'FAILED', 'merch_10', 'acc_001', 'ref_007', 'Failed Purchase', NOW());
+INSERT INTO transactions (id, amount, currency, type, status, merchant_id, account_id, reference, description, created_at, updated_at, settled_at, settlement_batch_id)
+VALUES
+    ('tx-001', 250.00, 'SGD', 'DEBIT',    'SETTLED',    'MERCHANT_001', 'ACC_1001', 'REF-2024-001', 'PayNow transfer to John',        '2024-05-01 09:00:00', '2024-05-01 09:05:00', '2024-05-01 10:00:00', 'BATCH-2024-05-01'),
+    ('tx-002', 1200.50,'SGD', 'CREDIT',   'SETTLED',    'MERCHANT_002', 'ACC_1002', 'REF-2024-002', 'Salary credit May 2024',         '2024-05-02 10:30:00', '2024-05-02 10:35:00', '2024-05-02 11:00:00', 'BATCH-2024-05-02'),
+    ('tx-003', 89.90,  'SGD', 'DEBIT',    'SETTLED',    'MERCHANT_003', 'ACC_1001', 'REF-2024-003', 'Grab Food order',                '2024-05-03 12:15:00', '2024-05-03 12:20:00', '2024-05-03 13:00:00', 'BATCH-2024-05-03'),
+    ('tx-004', 5000.00,'HKD', 'TRANSFER', 'SETTLED',    'MERCHANT_001', 'ACC_1003', 'REF-2024-004', 'Cross border HKD transfer',      '2024-05-04 14:00:00', '2024-05-04 14:05:00', '2024-05-04 15:00:00', 'BATCH-2024-05-04'),
+    ('tx-005', 45.00,  'USD', 'DEBIT',    'SETTLED',    'MERCHANT_004', 'ACC_1002', 'REF-2024-005', 'Netflix subscription',           '2024-05-05 08:00:00', '2024-05-05 08:05:00', '2024-05-05 09:00:00', 'BATCH-2024-05-05'),
+    ('tx-006', 320.75, 'SGD', 'DEBIT',    'PENDING',    'MERCHANT_002', 'ACC_1001', 'REF-2024-006', 'Shopee purchase - electronics',  '2024-05-06 16:45:00', '2024-05-06 16:45:00', null,                  null),
+    ('tx-007', 780.00, 'SGD', 'CREDIT',   'PENDING',    'MERCHANT_005', 'ACC_1003', 'REF-2024-007', 'Freelance payment received',     '2024-05-07 11:20:00', '2024-05-07 11:20:00', null,                  null),
+    ('tx-008', 150.00, 'SGD', 'REFUND',   'PROCESSING', 'MERCHANT_003', 'ACC_1002', 'REF-2024-008', 'Refund for cancelled order',     '2024-05-08 13:30:00', '2024-05-08 13:35:00', null,                  null),
+    ('tx-009', 99.00,  'USD', 'DEBIT',    'FAILED',     'MERCHANT_004', 'ACC_1001', 'REF-2024-009', 'Adobe subscription - declined',  '2024-05-09 09:15:00', '2024-05-09 09:15:00', null,                  null),
+    ('tx-010', 2500.00,'SGD', 'TRANSFER', 'PENDING',    'MERCHANT_001', 'ACC_1003', 'REF-2024-010', 'Rent payment May 2024',          '2024-05-10 10:00:00', '2024-05-10 10:00:00', null,                  null);
