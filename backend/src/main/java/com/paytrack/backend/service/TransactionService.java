@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import com.paytrack.backend.kafka.TransactionProducer;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private final TransactionRepository repository;
+    private final TransactionProducer producer;
 
     @Transactional
     public TransactionResponse create(TransactionRequest request) {
@@ -32,6 +34,7 @@ public class TransactionService {
                 .build();
 
         Transaction saved = repository.save(tx);
+        producer.publish(saved);
         log.info("Created transaction: {} for merchant: {}", saved.getId(), saved.getMerchantId());
         return TransactionResponse.from(saved);
     }
