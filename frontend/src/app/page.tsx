@@ -21,7 +21,7 @@ export default async function DashboardPage() {
           <p className="text-gray-500">Real-time payments monitoring — PayTrack Pro</p>
         </div>
 
-       {summary && <SummaryCards data={summary} />}
+       <SummaryCards/>
         <Suspense fallback={<div className="text-gray-400 py-8">Loading transactions...</div>}>
           <TransactionTableClient />
         </Suspense>
