@@ -2,6 +2,7 @@ import { SummaryData } from '@/types/transaction';
 import SummaryCards from '@/components/SummaryCards';
 import TransactionTableClient from '@/components/TransactionTableClient';
 import { Suspense } from 'react';
+import Charts from '@/components/Charts';
 
 async function getSummary(): Promise<SummaryData> {
   const res = await fetch('http://localhost:8080/api/v1/transactions/summary',
@@ -22,6 +23,7 @@ export default async function DashboardPage() {
         </div>
 
        <SummaryCards/>
+          <Charts />
         <Suspense fallback={<div className="text-gray-400 py-8">Loading transactions...</div>}>
           <TransactionTableClient />
         </Suspense>
