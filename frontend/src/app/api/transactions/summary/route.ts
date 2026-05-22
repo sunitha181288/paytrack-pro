@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
-
-const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:8080';
+import { config } from '@/lib/config';
 
 export async function GET() {
-    const res = await fetch(`${BACKEND}/api/v1/transactions/summary`,
-        { next: { revalidate: 0 } });
+    const res = await fetch(
+        `${config.backendUrl}/api/v1/transactions/summary`,
+        { next: { revalidate: 0 } }
+    );
     const data = await res.json();
     return NextResponse.json(data);
 }
