@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <footer className="border-t border-gray-100 mt-12 py-6 px-8">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Image
+                        <img
                             src="/images/icons/bank.svg"
                             alt="PayTrack Pro"
                             width={20}
