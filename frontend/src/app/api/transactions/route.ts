@@ -1,32 +1,36 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import { NextResponse } from 'next/server';
-import { config } from '@/lib/config';
+export async function GET(req: NextRequest) {
+  const backendUrl = process.env.BACKEND_URL ?? 'http://localhost:8080';
+  try {
+    const status = req.nextUrl.searchParams.get('status');
+    const url = status
+      ? `${backendUrl}/api/v1/transactions?status=${status}`
+      : `${backendUrl}/api/v1/transactions`;
+    const res = await fetch(url, { cache: 'no-store' });
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch {
+    return NextResponse.json([], { status: 200 });
+  }
+}
 
-// dynamic — never pre-rendered at build time
-export const dynamic = 'force-dynamic';
-
-export async function GET() {
-    try {
-        const res = await fetch(
-            `${config.backendUrl}/api/v1/transactions/summary`,
-            { cache: 'no-store' }
-        );
-        const data = await res.json();
-        return NextResponse.json(data);
-    } catch {
-        // Return empty summary when backend is down — build succeeds
-        return NextResponse.json({
-            total: 0,
-            pending: 0,
-            processing: 0,
-            settled: 0,
-            failed: 0,
-            totalSettledAmount: 0,
-        });
-    }
+export async function POST(req: NextRequest) {
+  const backendUrl = process.env.BACKEND_URL ?? 'http://localhost:8080';
+  try {
+    const body = await req.json();
+    const res = await fetch(`${backendUrl}/api/v1/transactions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      cache: 'no-store',
+    });
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch {
+    return NextResponse.json({ error: 'Backend unavailable' }, { status: 200 });
+  }
 }

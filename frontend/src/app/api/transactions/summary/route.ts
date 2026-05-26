@@ -5,7 +5,6 @@ export const revalidate = 0;
 
 export async function GET() {
   const backendUrl = process.env.BACKEND_URL ?? 'http://localhost:8080';
-
   try {
     const res = await fetch(
       `${backendUrl}/api/v1/transactions/summary`,
