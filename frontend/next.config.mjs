@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 
-    // ── ESLint — warn but don't fail build ───────────────────────
-    // Errors still fail. Warnings (like no-img-element) do not.
+    // ── ESLint — ignore during Vercel build completely ────────────
+    // ESLint runs on commit via Husky instead (pre-commit hook)
     eslint: {
-        ignoreDuringBuilds: false,
+        ignoreDuringBuilds: true,
     },
 
-    // ── TypeScript — errors still fail build ─────────────────────
+    // ── TypeScript — still check types at build time ──────────────
     typescript: {
         ignoreBuildErrors: false,
     },

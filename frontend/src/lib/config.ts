@@ -1,15 +1,3 @@
-function requireEnv(key: string): string {
-    const value = process.env[key];
-    if (!value) {
-        // Clear error
-        throw new Error(
-            `Missing required environment variable: ${key}\n` +
-            `Add it to .env.local (local) or Vercel dashboard (production)`
-        );
-    }
-    return value;
-}
-
 export const config = {
     // Backend URL — Next.js Route Handlers use this server-side only
     backendUrl: process.env.BACKEND_URL ?? 'http://localhost:8080',
