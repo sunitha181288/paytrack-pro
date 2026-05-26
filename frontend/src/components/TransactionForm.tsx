@@ -51,8 +51,8 @@ export default function TransactionForm({ onSuccess }: Props) {
             dispatch(addTransaction(data));
             onSuccess();
         } catch (_err) {
-            // ✅ _err prefix — ESLint ignores unused catch vars with _ prefix
-            // ✅ No 'any' — err instanceof Error handles the type safely
+            //  _err prefix — ESLint ignores unused catch vars with _ prefix
+            //  No 'any' — err instanceof Error handles the type safely
             setErrors({ submit: 'Failed to create transaction. Is the backend running?' });
         } finally {
             setLoading(false);
