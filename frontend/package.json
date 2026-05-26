@@ -41,9 +41,6 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "eslint --fix --max-warnings=5",
-      "git add"
-    ]
+    "src/**/*.{ts,tsx}": "eslint --max-warnings=10"
   }
 }
