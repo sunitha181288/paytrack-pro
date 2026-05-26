@@ -1,0 +1,32 @@
+# Compiled files
+**/target/
+**/*.class
+
+# Environment files
+**/.env
+**/.env.local
+**/.env.*.local
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.DS_Store
+
+# Logs
+**/*.log
+**/logs/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Railway local files (if any)
+.railway/
+
+# Maven
+**/mvnw.cmd
+**/.mvn/wrapper/maven-wrapper.jar

@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { useAppSelector } from '@/store';
 import { useMemo } from 'react';
 import {
@@ -46,44 +45,44 @@ export default function SummaryCards() {
 
     const topCards = [
         {
-            label: 'Total',
-            value: summary.total,
+            label:  'Total',
+            value:  summary.total,
             border: 'border-blue-500',
             text:   'text-blue-700',
             bg:     'bg-blue-50',
-            icon:   <BarChart2  size={18} className="text-blue-500" />,
+            icon:   <BarChart2   size={18} className="text-blue-500" />,
         },
         {
-            label: 'Pending',
-            value: summary.pending,
+            label:  'Pending',
+            value:  summary.pending,
             border: 'border-yellow-500',
             text:   'text-yellow-700',
             bg:     'bg-yellow-50',
-            icon:   <Clock      size={18} className="text-yellow-500" />,
+            icon:   <Clock       size={18} className="text-yellow-500" />,
         },
         {
-            label: 'Processing',
-            value: summary.processing,
+            label:  'Processing',
+            value:  summary.processing,
             border: 'border-blue-400',
             text:   'text-blue-600',
             bg:     'bg-blue-50',
-            icon:   <RefreshCw  size={18} className="text-blue-400" />,
+            icon:   <RefreshCw   size={18} className="text-blue-400" />,
         },
         {
-            label: 'Settled',
-            value: summary.settled,
+            label:  'Settled',
+            value:  summary.settled,
             border: 'border-green-500',
             text:   'text-green-700',
             bg:     'bg-green-50',
             icon:   <CheckCircle size={18} className="text-green-500" />,
         },
         {
-            label: 'Failed',
-            value: summary.failed,
+            label:  'Failed',
+            value:  summary.failed,
             border: 'border-red-500',
             text:   'text-red-700',
             bg:     'bg-red-50',
-            icon:   <XCircle    size={18} className="text-red-500" />,
+            icon:   <XCircle     size={18} className="text-red-500" />,
         },
     ];
 
@@ -105,9 +104,7 @@ export default function SummaryCards() {
                                 {card.icon}
                             </div>
                         </div>
-                        <p className={`text-2xl font-bold ${card.text}`}>
-                            {card.value}
-                        </p>
+                        <p className={`text-2xl font-bold ${card.text}`}>{card.value}</p>
                     </div>
                 ))}
             </div>
@@ -135,15 +132,17 @@ export default function SummaryCards() {
                                     key={currency}
                                     className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 hover:border-purple-200 hover:bg-purple-50 transition-colors"
                                 >
-                                    {/* SVG Flag from public/images/flags/ */}
-                                    <div className="rounded overflow-hidden shadow-sm border border-gray-200 flex-shrink-0">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <div className="rounded overflow-hidden shadow-sm border border-gray-200 flex-shrink-0"
+                                         style={{ width: 32, height: 24 }}>
                                         {CURRENCY_FLAGS[currency] ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
                                             <img
                                                 src={CURRENCY_FLAGS[currency]}
                                                 alt={`${currency} flag`}
                                                 width={32}
                                                 height={24}
-                                                style={{ display: 'block' }}
+                                                style={{ display: 'block', width: 32, height: 24 }}
                                             />
                                         ) : (
                                             <div className="w-8 h-6 bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">
@@ -152,7 +151,6 @@ export default function SummaryCards() {
                                         )}
                                     </div>
 
-                                    {/* Currency name + amount */}
                                     <div>
                                         <p className="text-xs text-gray-400 font-medium leading-none mb-1">
                                             {CURRENCY_NAMES[currency] ?? currency}

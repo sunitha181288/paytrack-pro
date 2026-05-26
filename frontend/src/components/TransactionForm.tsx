@@ -37,7 +37,7 @@ export default function TransactionForm({ onSuccess }: Props) {
             const data = await res.json();
             dispatch(addTransaction(data));
             onSuccess();
-        } catch (err) {
+        } catch (_err) {
             setErrors({ submit: 'Failed to create transaction. Is the backend running?' });
         } finally {
             setLoading(false);

@@ -1,32 +1,30 @@
-import { SummaryData } from '@/types/transaction';
 import SummaryCards from '@/components/SummaryCards';
 import TransactionTableClient from '@/components/TransactionTableClient';
 import { Suspense } from 'react';
-import Charts from '@/components/Charts';
 
-async function getSummary(): Promise<SummaryData> {
-  const res = await fetch('http://localhost:8080/api/v1/transactions/summary',
-      { next: { revalidate: 30 } });
-  if (!res.ok) throw new Error('Failed to fetch summary');
-  return res.json();
-}
+export default function DashboardPage() {
+    return (
+        <div>
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-1">
+                    Transaction Dashboard
+                </h2>
+                <p className="text-gray-500 text-sm">
+                    Real-time payments monitoring — PayTrack Pro
+                </p>
+            </div>
 
-export default async function DashboardPage() {
-  let summary: SummaryData | null = null;
-  try { summary = await getSummary(); } catch {}
+            {/* Summary cards — reads from Redux, auto-updates every 10s */}
+            <SummaryCards />
 
-  return (
-      <div>
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-1">Transaction Dashboard</h2>
-          <p className="text-gray-500">Real-time payments monitoring — PayTrack Pro</p>
+            {/* Transaction table — search, sort, filter, paginate */}
+            <Suspense fallback={
+                <div className="bg-white rounded-xl shadow p-12 text-center text-gray-400">
+                    Loading transactions...
+                </div>
+            }>
+                <TransactionTableClient />
+            </Suspense>
         </div>
-
-       <SummaryCards/>
-          <Charts />
-        <Suspense fallback={<div className="text-gray-400 py-8">Loading transactions...</div>}>
-          <TransactionTableClient />
-        </Suspense>
-      </div>
-  );
+    );
 }
