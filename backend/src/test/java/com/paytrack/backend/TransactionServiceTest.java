@@ -2,6 +2,7 @@ package com.paytrack.backend;
 
 import com.paytrack.backend.dto.TransactionRequest;
 import com.paytrack.backend.dto.TransactionResponse;
+import com.paytrack.backend.kafka.TransactionProducer;
 import com.paytrack.backend.model.*;
 import com.paytrack.backend.repository.TransactionRepository;
 import com.paytrack.backend.service.TransactionService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,8 +23,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
 
-    @Mock private TransactionRepository repository;
-    @InjectMocks private TransactionService service;
+    @Mock
+    private TransactionRepository repository;
+
+    // ✅ Correct import: com.paytrack.backend.kafka.TransactionProducer
+    @Mock
+    private TransactionProducer producer;
+
+    @InjectMocks
+    private TransactionService service;
 
     @Test
     void create_validRequest_returnsPendingTransaction() {
@@ -45,11 +54,15 @@ class TransactionServiceTest {
 
         when(repository.save(any())).thenReturn(saved);
 
+        // Mock producer.publish() — does nothing (void method)
+        doNothing().when(producer).publish(any(Transaction.class));
+
         TransactionResponse result = service.create(req);
 
         assertThat(result.getId()).isEqualTo("tx-test-001");
         assertThat(result.getStatus()).isEqualTo(TransactionStatus.PENDING);
         verify(repository, times(1)).save(any(Transaction.class));
+        verify(producer, times(1)).publish(any(Transaction.class));
     }
 
     @Test
@@ -63,7 +76,9 @@ class TransactionServiceTest {
     @Test
     void cancel_settledTransaction_throwsException() {
         Transaction settled = Transaction.builder()
-                .id("tx-001").status(TransactionStatus.SETTLED).build();
+                .id("tx-001")
+                .status(TransactionStatus.SETTLED)
+                .build();
         when(repository.findById("tx-001")).thenReturn(Optional.of(settled));
         assertThatThrownBy(() -> service.cancel("tx-001"))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -72,7 +87,9 @@ class TransactionServiceTest {
     @Test
     void cancel_pendingTransaction_setsStatusFailed() {
         Transaction pending = Transaction.builder()
-                .id("tx-002").status(TransactionStatus.PENDING).build();
+                .id("tx-002")
+                .status(TransactionStatus.PENDING)
+                .build();
         when(repository.findById("tx-002")).thenReturn(Optional.of(pending));
         when(repository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         TransactionResponse result = service.cancel("tx-002");
